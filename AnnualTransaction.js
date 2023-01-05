@@ -1,0 +1,58 @@
+/**
+ * You are given a list of all the transactions on a bank account during the year 2020. 
+ * The account was empty at the beginning of the year (the balance was 0). Each transaction specifies the amount and the date it was executed. 
+ * If the amount is negative (i.e. less than 0) then it was a card payment, otherwise it was an incoming transfer (amount at least 0). 
+ * The date of each transaction is in YYYY-MM-DD format: for example, 2020-05-20 represents 20th May 2020. 
+ * Additionally, there is a fee for having a card (omitted in the given transaction list), which is 5 per month. 
+ * This fee is deducted from the account balance at the end of each month unless there were at least three payments made by card 
+ * for a total cost of at least 100 within that month. Your task is to compute the final balance of the account at the end of the year 2020. 
+ * Write a function: strinell TE intention antin Your task is to compute the final balance of the account att end of the year 2020. 
+ * Write a function: class solution { public int solution(int[] A, String[] D); } that, given an array A of N integers representing transaction amounts 
+ * and an array D of N strings representing transaction dates, returns the final balance of the account at the end of the year 2020. 
+ * Transaction number K (for K within the range [0..N-1]) was executed on the date represented by D[K] for amount A[K]. Examples: 1. Given A = [100, 100, 100, -10] 
+ * and D = ["2020-12-31", "2020-12-22", "2020-12-03", "2020-12-29"), the function should return 230. Total income was equal to 100 + 100 + 100 - 10 = 290 and 
+ * the fee was paid every month, so 290 - (5 * 12) = 230.....
+ */
+
+function solution(A, D)
+{
+    let transA = [];
+    transA = A;
+    let transD = [];
+    transD = D.map(date => new Date(date));
+    let finalT = 0;
+    let count = 0;
+    let month = 0;
+    let monthlyF = 5;
+    let payment = 0;
+    
+
+    for(let i = 0 ; i < transA.length ; i++)
+    {
+        finalT += transA[i];
+        if(transA[i] < 0)
+        {
+            payment += transA[i]
+            month = transD[i].getUTCMonth();
+            if(month === transD[i].getUTCMonth())
+            {
+                count++;
+            }
+        }
+    }
+
+    if(count === 3 && payment <= -100)
+    {
+        return finalT - monthlyF * 11
+    }
+    else
+    {
+        return finalT - monthlyF * 12
+    }
+}
+
+console.log(solution([100, 100, 100, -10], ["2020-12-31", "2020-12-22", "2020-12-03", "2020-12-29"]));
+console.log(solution([180, -50, -25, -25], ["2020-01-01", "2020-01-01", "2020-01-01", "2020-01-31"]));
+console.log(solution([1, -1, 0, -105, 1], ["2020-12-31", "2020-04-04", "2020-04-04", "2020-04-14", "2020-07-12"]));
+console.log(solution([100, 100, -10, -20, -30], ["2020-01-01", "2020-02-01", "2020-02-11", "2020-02-05", "2020-02-08"]));
+console.log(solution([-60, 60, -40, -20], ["2020-10-01", "2020-02-02", "2020-10-10", "2020-10-30"]));
